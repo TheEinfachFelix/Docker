@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - "grafana_data:/var/lib/grafana"
+    restart: always
+  influxdb:
+    image: influxdb:1.8
+    ports:
+      - "8086:8086"
+    restart: always
+    volumes:
+      - "./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
+      - "./influxdb/influxdb:/var/lib/influxdb"
+  iobroker:
+    container_name: iobroker
+    image: buanet/iobroker
+    hostname: iobroker
+    restart: always
+    ports:
+      - "8081:8081"
+    volumes:
+      - "iobroker_data:/var/lib/grafana"
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - "homeassistant:/config"
+      - "homeassistant:/etc/localtime:ro"
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+
+
+volumes:
+  ? influxdb_data
+  ? grafana_data
+  ? iobroker_data
+  ? homeassistant

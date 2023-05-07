@@ -1,0 +1,338 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+modbus:
+  - name: "e3dc"
+    close_comm_on_error: true
+    delay: 5
+    timeout: 5
+    type: tcp
+    host: 192.168.178.81
+    port: 502
+    sensors:
+      - name: e3dc_power_solar
+        unique_id: e3cd_power_solar
+        address: 40067
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 2
+
+      - name: e3dc_power_battery
+        unique_id: e3dc_power_battery
+        address: 40069
+        state_class: measurement
+        scan_interval: 2
+
+      - name: e3dc_soc_battery
+        unique_id: e3dc_soc_battery
+        address: 40082
+        state_class: measurement
+        unit_of_measurement: "%"
+        scan_interval: 30
+
+      - name: e3dc_power_consumption
+        unique_id: e3dc_power_consumption
+        address: 40071
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 2
+
+      - name: e3dc_power_grid
+        unique_id: e3dc_power_grid
+        address: 40073
+        state_class: measurement
+        scan_interval: 2
+
+      - name: e3dc_power_external_source
+        unique_id: e3dc_power_external_source
+        address: 40076
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 30
+
+      - name: e3dc_state_emergency_power
+        unique_id: e3dc_state_emergency_power
+        address: 40083
+        state_class: measurement
+        scan_interval: 30
+
+      - name: e3dc_state_ems
+        unique_id: e3dc_state_ems
+        address: 40084
+        state_class: measurement
+        scan_interval: 30
+
+      - name: e3dc_state_wb0
+        unique_id: e3dc_state_wb0
+        address: 40087
+        state_class: measurement
+        scan_interval: 5
+
+      - name: e3dc_autarky_and_consumption
+        unique_id: e3dc_autarky_and_consumption
+        address: 40081
+        state_class: measurement
+        scan_interval: 30
+
+      - name: e3dc_volt_string_1
+        unique_id: e3dc_power_string_1
+        address: 40095
+        state_class: measurement
+        unit_of_measurement: "V"
+        scan_interval: 5
+
+      - name: e3dc_volt_string_2
+        unique_id: e3dc_power_string_2
+        address: 40096
+        state_class: measurement
+        unit_of_measurement: "V"
+        scan_interval: 5
+
+      - name: e3dc_amp_string_1
+        unique_id: e3dc_amp_string_1
+        address: 40098
+        state_class: measurement
+        unit_of_measurement: "A"
+        scan_interval: 5
+
+      - name: e3dc_amp_string_2
+        unique_id: e3dc_amp_string_2
+        address: 40099
+        state_class: measurement
+        unit_of_measurement: "A"
+        scan_interval: 5
+
+      - name: e3dc_power_string_1
+        unique_id: e3dc_power_string_1
+        address: 40101
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 5
+
+      - name: e3dc_power_string_2
+        unique_id: e3dc_power_string_2
+        address: 40102
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 5
+
+      - name: e3dc_power_meter1_p1
+        unique_id: e3dc_power_meter1_p1
+        address: 40105
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 5
+
+      - name: e3dc_power_meter1_p2
+        unique_id: e3dc_power_meter1_p2
+        address: 40106
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 5
+
+      - name: e3dc_power_meter1_p3
+        unique_id: e3dc_power_meter1_p3
+        address: 40107
+        state_class: measurement
+        unit_of_measurement: "W"
+        device_class: power
+        scan_interval: 5
+
+#### power meters
+sensor:
+  - platform: template
+    sensors:
+      e3dc_power_battery_in:
+        unique_id: "e3dc_power_battery_in"
+        friendly_name: "e3dc_Leistung Batterie Laden"
+        
+        unit_of_measurement: "W"
+        device_class: power
+        value_template: >
+          {% if states('sensor.e3dc_power_battery') | int > 0 %}
+            {{ states('sensor.e3dc_power_battery') | int }}
+          {% else -%}
+            0
+          {% endif %}
+      e3dc_power_battery_out:
+        unique_id: "e3dc_power_battery_out"
+        friendly_name: "e3dc_Leistung Batterie Entaden"
+        unit_of_measurement: "W"
+        device_class: power
+        value_template: >
+          {% if states('sensor.e3dc_power_battery') | int > 0 %}
+            0
+          {% else -%}
+            {{ (states('sensor.e3dc_power_battery') | int) | abs }} 
+          {% endif %}
+      e3dc_power_grid_in:
+        unique_id: "e3dc_power_grid_in"
+        friendly_name: "e3dc_Leistung Netz Beziehen"
+        unit_of_measurement: "W"
+        device_class: power
+        value_template: >
+          {% if states('sensor.e3dc_power_grid') | int > 0 %}
+            {{ states('sensor.e3dc_power_grid') | int }}
+          {% else -%}
+            0
+          {% endif %}
+      e3dc_power_grid_out:
+        unique_id: "e3dc_power_grid_out"
+        friendly_name: "e3dc_Leistung Netz Einspeisen"
+        unit_of_measurement: "W"
+        device_class: power
+        value_template: >
+          {% if states('sensor.e3dc_power_grid') | int > 0 %}
+            0
+          {% else -%}
+            {{ (states('sensor.e3dc_power_grid') | int) | abs }}
+          {% endif %}
+      e3dc_power_autarky:
+        unique_id: "e3dc_Autarkie"
+        friendly_name: "e3dc_Autarkie"
+        unit_of_measurement: "%"
+        value_template: "{{ (states('sensor.e3dc_autarky_and_consumption')|int / 256)|round(0,'floor') }}"
+      e3dc_power_consumption_percent:
+        unique_id: "e3dc_Eigenverbrauch"
+        friendly_name: "e3dc_Eigenverbrauch"
+        unit_of_measurement: "%"
+        value_template: "{{ ((states('sensor.e3dc_autarky_and_consumption')|int / 256 - states('sensor.e3dc_power_autarky')|int) * 256)|round(0,'floor') }}"
+
+  #### energy meters
+  - platform: integration
+    source: sensor.e3dc_power_solar
+    name: e3dc_energy_solar
+    unique_id: e3dc_energy_solar
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_battery_out
+    name: e3dc_energy_battery_out
+    unique_id: e3dc_energy_battery_out
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_battery_in
+    name: e3dc_energy_battery_in
+    unique_id: e3dc_energy_battery_in
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_grid_out
+    name: e3dc_energy_grid_out
+    unique_id: e3dc_energy_grid_out
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_grid_in
+    name: e3dc_energy_grid_in
+    unique_id: e3dc_energy_grid_in
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_consumption
+    name: e3dc_energy_consumption
+    unique_id: e3dc_energy_consumption
+    unit_prefix: k
+    unit_time: h
+    round: 1
+  - platform: integration
+    source: sensor.e3dc_power_external_source
+    name: e3dc_energy_external_source
+    unique_id: e3dc_energy_external_source
+    unit_prefix: k
+    unit_time: h
+    round: 1
+
+binary_sensor:
+  - platform: template
+    sensors:
+      #### EMS
+      e3dc_battery_loading_blocked:
+        friendly_name: "e3dc_Laden der Batterien ist gesperrt"
+        unique_id: e3dc_battery_loading_blocked
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(1) > 0 }}"
+      e3dc_battery_unloading_blocked:
+        friendly_name: "e3dc_Entladen der Batterien ist gesperrt"
+        unique_id: e3dc_battery_unloading_blocked
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(2) > 0 }}"
+      e3dc_emergency_power_possible:
+        friendly_name: "e3dc_Notstrommodus ist möglich"
+        unique_id: e3dc_emergency_power_possible
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(4) > 0 }}"
+      e3dc_weather_based_loading:
+        friendly_name: "e3dc_Wetterbasiertes Laden"
+        unique_id: e3dc_weather_based_loading
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(8) > 0 }}"
+      e3dc_power_limiter:
+        friendly_name: "e3dc_Abregelungs-Status"
+        unique_id: e3dc_power_limiter
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(16) > 0 }}"
+      e3dc_smartcharge_loading_blocked:
+        friendly_name: "e3dc_Ladesperrzeit aktiv"
+        unique_id: e3dc_smartcharge_loading_blocked
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(32) > 0 }}"
+      e3dc_smartcharge_unloading_blocked:
+        friendly_name: "e3dc_Entladesperrzeit aktiv"
+        unique_id: e3dc_smartcharge_unloading_blocked
+        value_template: "{{ states('sensor.e3dc_state_ems')|int|bitwise_and(64) > 0 }}"
+      e3dc_emergency_power_active:
+        friendly_name: "e3dc_Notstrom Modus aktiviert"
+        unique_id: e3dc_emergency_power_active
+        value_template: "{{ is_state('sensor.e3dc_state_emergency_power', 1) }}"
+
+#### daily meters
+utility_meter:
+  e3dc_energy_solar_daily:
+    source: sensor.e3dc_energy_solar
+    unique_id: e3dc_energy_solar_daily
+    cycle: daily
+  e3dc_energy_grid_in_daily:
+    source: sensor.e3dc_energy_grid_in
+    unique_id: e3dc_energy_grid_in_daily
+    cycle: daily
+  e3dc_energy_grid_out_daily:
+    source: sensor.e3dc_energy_grid_out
+    unique_id: e3dc_energy_grid_out_daily
+    cycle: daily
+  e3dc_energy_battery_in_daily:
+    source: sensor.e3dc_energy_battery_in
+    unique_id: e3dc_energy_battery_in_daily
+    cycle: daily
+  e3dc_energy_battery_out_daily:
+    source: sensor.e3dc_energy_battery_out
+    unique_id: e3dc_energy_battery_out_daily
+    cycle: daily
+  e3dc_energy_consumption_daily:
+    source: sensor.e3dc_energy_consumption
+    unique_id: e3dc_energy_consumption_daily
+    cycle: daily
+  e3dc_energy_external_source_daily:
+    source: sensor.e3dc_energy_external_source
+    unique_id: e3dc_energy_external_source_daily
+    cycle: daily
