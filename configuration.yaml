@@ -14,6 +14,17 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+influxdb:
+  host: 192.168.178.83
+  port: 8086
+  database: home_assistant  
+  include:
+    #entities:
+    #  - sensor.e3dc_power_solar
+    entity_globs:
+      - sensor.e3dc*
+      - binary_sensor.e3dc*
+
 modbus:
   - name: "e3dc"
     close_comm_on_error: true
@@ -91,14 +102,14 @@ modbus:
         scan_interval: 30
 
       - name: e3dc_volt_string_1
-        unique_id: e3dc_power_string_1
+        unique_id: e3dc_volt_string_1
         address: 40095
         state_class: measurement
         unit_of_measurement: "V"
         scan_interval: 5
 
       - name: e3dc_volt_string_2
-        unique_id: e3dc_power_string_2
+        unique_id: e3dc_volt_string_2
         address: 40096
         state_class: measurement
         unit_of_measurement: "V"

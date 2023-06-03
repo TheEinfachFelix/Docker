@@ -16,15 +16,15 @@ services:
     volumes:
       - "./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf"
       - "./influxdb/influxdb:/var/lib/influxdb"
-  iobroker:
-    container_name: iobroker
-    image: buanet/iobroker
-    hostname: iobroker
-    restart: always
-    ports:
-      - "8081:8081"
-    volumes:
-      - "iobroker_data:/var/lib/grafana"
+#  iobroker:
+#    container_name: iobroker
+#    image: buanet/iobroker
+#    hostname: iobroker
+#    restart: always
+#    ports:
+#      - "8081:8081"
+#    volumes:
+#      - "iobroker_data:/var/lib/grafana"
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
