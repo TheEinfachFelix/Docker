@@ -1,0 +1,13 @@
+[{'time': '2023-05-09T13:01:09.172470Z', 'cron pattern_str': None, 'device_class_str': 'energy', 'domain': 'sensor', 'entity_id': 'e3dc_energy_solar', 'friendly_name_str': 'e3dc_energy_solar', 'icon_str': 'mdi:chart-histogram', 'last_period': None, 'last_reset': None, 'last_reset_str': None, 'last_valid_state': None, 'meter_period_str': None, 'source_str': 'sensor.e3dc_power_solar', 'state_class_str': 'total', 'status_str': None, 'value': 56.4},
+ {'time': '2023-05-09T13:02:14.315886Z', 'cron pattern_str': None, 'device_class_str': 'energy', 'domain': 'sensor', 'entity_id': 'e3dc_energy_solar', 'friendly_name_str': 'e3dc_energy_solar', 'icon_str': 'mdi:chart-histogram', 'last_period': None, 'last_reset': None, 'last_reset_str': None, 'last_valid_state': None, 'meter_period_str': None, 'source_str': 'sensor.e3dc_power_solar', 'state_class_str': 'total', 'status_str': None, 'value': 56.5},
+  {'time': '2023-05-09T13:04:40.297326Z', 'cron pattern_str': None, 'device_class_str': 'energy', 'domain': 'sensor', 'entity_id': 'e3dc_energy_solar', 'friendly_name_str': 'e3dc_energy_solar', 'icon_str': 'mdi:chart-histogram', 'last_period': None, 'last_reset': None, 'last_reset_str': None, 'last_valid_state': None, 'meter_period_str': None, 'source_str': 'sensor.e3dc_power_solar', 'state_class_str': 'total', 'status_str': None, 'value': 56.5},
+   {'time': '2023-05-09T13:05:21.298324Z', 'cron pattern_str': None, 'device_class_str': 'energy', 'domain': 'sensor', 'entity_id': 'e3dc_energy_solar', 'friendly_name_str': 'e3dc_energy_solar', 'icon_str': 'mdi:chart-histogram', 'last_period': None, 'last_reset': None, 'last_reset_str': None, 'last_valid_state': None, 'meter_period_str': None, 'source_str': 'sensor.e3dc_power_solar', 'state_class_str': 'total', 'status_str': None, 'value': 56.6},
+ {'time': '2023-05-09T13:06:47.395972Z', 'cron pattern_str': None, 'device_class_str': 'energy', 'domain': 'sensor', 'entity_id': 'e3dc_energy_solar', 'friendly_name_str': 'e3dc_energy_solar', 'icon_str': 'mdi:chart-histogram', 'last_period': None, 'last_reset': None, 'last_reset_str': None, 'last_valid_state': None, 'meter_period_str': None, 'source_str': 'sensor.e3dc_power_solar', 'state_class_str': 'total', 'status_str': None, 'value': 56.7}]
+
+
+
+
+ {"time": "2023-07-15T16:28:00.494633Z", "value": 759.0}, {"time": "2023-07-15T16:27:58.494403Z", "value": 761.0}, {"time": "2023-07-15T16:27:56.490004Z", "value": 748.0}, {"time": "2023-07-15T16:27:54.507927Z", "value": 735.0}, {"time": "2023-07-15T16:27:52.492683Z", "value": 741.0}
+
+{'time': '2023-07-15T19:44:24.765569', 'value': -3.0}
+
